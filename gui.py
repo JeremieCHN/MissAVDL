@@ -578,7 +578,7 @@ class ScraperGUI:
         
         # 输出目录 (影片存放目录)
         ttk.Label(input_frame, text="影片目录:").grid(row=0, column=0, sticky=tk.W, padx=(0, 5))
-        self.output_var = tk.StringVar(value=r"\\\share\Videos\MissAV")
+        self.output_var = tk.StringVar(value="")
         self.output_entry = ttk.Entry(input_frame, textvariable=self.output_var)
         self.output_entry.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=(0, 5))
         
@@ -624,7 +624,7 @@ class ScraperGUI:
                        command=self.toggle_proxy).grid(row=0, column=0, sticky=tk.W)
         
         ttk.Label(proxy_frame, text="代理地址:").grid(row=1, column=0, sticky=tk.W, padx=(0, 5), pady=(5, 0))
-        self.proxy_var = tk.StringVar(value="http://:8901/")
+        self.proxy_var = tk.StringVar(value="")
         self.proxy_entry = ttk.Entry(proxy_frame, textvariable=self.proxy_var)
         self.proxy_entry.grid(row=1, column=1, sticky=(tk.W, tk.E), padx=(0, 5), pady=(5, 0))
         
@@ -1583,7 +1583,7 @@ class MainGUI:
         
         # 输出目录 (影片存放目录)
         ttk.Label(input_frame, text="影片目录:").grid(row=0, column=0, sticky=tk.W, padx=(0, 5))
-        self.output_var = tk.StringVar(value=r"\\\share\Videos\MissAV")
+        self.output_var = tk.StringVar(value="")
         self.output_entry = ttk.Entry(input_frame, textvariable=self.output_var)
         self.output_entry.grid(row=0, column=1, sticky=(tk.W, tk.E), padx=(0, 5))
         
@@ -1629,7 +1629,7 @@ class MainGUI:
                        command=self.toggle_proxy).grid(row=0, column=0, sticky=tk.W)
         
         ttk.Label(proxy_frame, text="代理地址:").grid(row=1, column=0, sticky=tk.W, padx=(0, 5), pady=(5, 0))
-        self.proxy_var = tk.StringVar(value="http://:8901/")
+        self.proxy_var = tk.StringVar(value="")
         self.proxy_entry = ttk.Entry(proxy_frame, textvariable=self.proxy_var)
         self.proxy_entry.grid(row=1, column=1, sticky=(tk.W, tk.E), padx=(0, 5), pady=(5, 0))
         
@@ -1756,7 +1756,7 @@ class MainGUI:
         
         # 保存目录
         ttk.Label(detail_frame, text="保存目录:").grid(row=1, column=0, sticky=tk.W, padx=(0, 5), pady=(0, 5))
-        self.dl_dir_var = tk.StringVar(value=r"\\\share\Videos\MissAV")
+        self.dl_dir_var = tk.StringVar(value="")
         dl_dir_frame = ttk.Frame(detail_frame)
         dl_dir_frame.grid(row=1, column=1, sticky=(tk.W, tk.E), pady=(0, 5))
         dl_dir_frame.columnconfigure(0, weight=1)
@@ -1783,7 +1783,7 @@ class MainGUI:
         self.dl_use_proxy_var = tk.BooleanVar(value=True)
         ttk.Checkbutton(proxy_frame, text="使用HTTP代理", variable=self.dl_use_proxy_var).pack(side=tk.LEFT, padx=(0, 5))
         
-        self.dl_proxy_var = tk.StringVar(value="http://:8901")
+        self.dl_proxy_var = tk.StringVar(value="")
         self.dl_proxy_entry = ttk.Entry(proxy_frame, textvariable=self.dl_proxy_var, width=30)
         self.dl_proxy_entry.pack(side=tk.LEFT, fill='x', expand=True)
         
