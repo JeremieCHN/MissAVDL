@@ -33,8 +33,20 @@ except ImportError:
     print("错误：无法导入 tkinter。请确保 Python 安装了 tkinter 支持。")
     sys.exit(1)
 
+# ===== 路径配置 =====
+def get_base_dir():
+    """获取程序基础目录，兼容打包和开发环境"""
+    if getattr(sys, 'frozen', False):
+        # 打包后运行
+        return os.path.dirname(sys.executable)
+    else:
+        # 开发环境运行
+        return os.path.dirname(os.path.abspath(__file__))
+
+BASE_DIR = get_base_dir()
+
 # ===== 配置文件管理 =====
-CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+CONFIG_FILE = os.path.join(BASE_DIR, "config.json")
 
 DEFAULT_CONFIG = {
     "downloader": {
@@ -101,8 +113,8 @@ SCRAPER_DOMAINS = CONFIG['scraper']['domains']
 
 
 # ============ 工具配置 ============
-TOOLS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools")
-CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cache")
+TOOLS_DIR = os.path.join(BASE_DIR, "tools")
+CACHE_DIR = os.path.join(BASE_DIR, "cache")
 N_m3u8DL_FILENAME = "N_m3u8DL-RE.exe"
 FFMPEG_FILENAME = "ffmpeg.exe"
 
@@ -1299,11 +1311,18 @@ class M3U8Downloader:
             self._log(f"执行命令: {' '.join(cmd)}")
             
             # 不使用 cwd 参数，避免路径问题
+            startupinfo = None
+            if os.name == 'nt':  # Windows
+                startupinfo = subprocess.STARTUPINFO()
+                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                startupinfo.wShowWindow = subprocess.SW_HIDE
+            
             self.process = subprocess.Popen(
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
-                bufsize=1  # 行缓冲
+                bufsize=1,  # 行缓冲
+                startupinfo=startupinfo
             )
             
             for line in iter(self.process.stdout.readline, ''):
@@ -1811,6 +1830,8 @@ class MainGUI:
         """创建工具管理标签页"""
         main_frame = ttk.Frame(self.tools_frame, padding="10")
         main_frame.pack(expand=True, fill='both')
+        main_frame.columnconfigure(0, weight=1)
+        main_frame.rowconfigure(3, weight=1)
         
         # ===== 工具状态 =====
         status_frame = ttk.LabelFrame(main_frame, text="工具状态", padding="10")
